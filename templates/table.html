@@ -1,0 +1,41 @@
+<div class="section">
+    <div class="container">
+        <h2>All Birthdays</h2>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Birthday</th>
+                <th>Current Age</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Loop through the database entries and display them in a table -->
+            {% for birthday in birthdays %}
+                <tr>
+                    <td>{{ birthday["name"] }}</td>
+                    <td>{{ birthday["formatted_date"] }}</td>
+                    <td>{{ birthday["age"] | string if birthday["age"] >= 0 else 'Not yet born!' }}</td>
+                    <td> <!-- Add ability to edit entries-->
+                        <form action="/edit" method="get" style="display:inline">
+                            <input type="hidden" name="id" value="{{ birthday['id'] }}">
+                            <input type="hidden" name="name" value="{{ birthday['name'] }}">
+                            <input type="hidden" name="month" value="{{ birthday['month'] }}">
+                            <input type="hidden" name="day" value="{{ birthday['day'] }}">
+                            <input type="hidden" name="year" value="{{ birthday['year'] }}">
+                            <button id="edit" type="submit">Edit</button>
+                        </form>
+                        <!-- Add ability to delete entries-->
+                        <form action="/delete" method="post" style="display:inline">
+                            <input type="hidden" name="id" value="{{ birthday['id'] }}">
+                            <button id="remove" type="submit">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
